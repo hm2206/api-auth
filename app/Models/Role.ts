@@ -1,12 +1,10 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, afterSave } from '@ioc:Adonis/Lucid/Orm'
+import RoleHook from './hooks/RoleHook'
 
-export default class Method extends BaseModel {
+export default class Role extends BaseModel {
   @column({ isPrimary: true })
   public id: number
-
-  @column()
-  public systemId: number
 
   @column()
   public name: string
@@ -15,20 +13,17 @@ export default class Method extends BaseModel {
   public description: string
 
   @column()
-  public url: string
-
-  @column()
-  public actionType: string
-
-  @column()
-  public required: boolean
-
-  @column()
-  public state: boolean
+  public isDefault: boolean
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @afterSave()
+  public static async varifyDefault(role: Role) {
+    await RoleHook.verifyDefault(role);
+  }
+
 }

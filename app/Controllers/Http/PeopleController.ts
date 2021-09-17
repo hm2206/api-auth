@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ParamsPaginate from 'App/Helpers/ParamsPaginate'
 import PersonValidator from 'App/Validators/PersonValidator'
-import moment from 'moment'
 import Person from 'App/Models/Person'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import NotFoundException from 'App/Exceptions/NotFoundException'
@@ -24,7 +23,8 @@ export default class PeopleController {
 
     public async store({ request }: HttpContextContract) {
         const payload: any = await request.validate(PersonValidator);
-        payload.date_birth = moment(payload.date_birth).format('YYYY-MM-DD');
+        payload.address = request.input('address', null)
+        payload.phone = request.input('phone', null)
         try {
             const person = await Person.create(payload);
             return person;
@@ -42,7 +42,8 @@ export default class PeopleController {
     public async update(ctx: HttpContextContract) {
         const { params, request } = ctx;
         const payload: any = await request.validate(new PersonValidator(ctx, params.id));
-        payload.date_birth = moment(payload.date_birth).format('YYYY-MM-DD');
+        payload.address = request.input('address', null)
+        payload.phone = request.input('phone', null)
         const person = await Person.find(params.id);
         if (!person) throw new NotFoundException("La persona");
         try {
@@ -54,9 +55,14 @@ export default class PeopleController {
         }
     }
 
-    public async delete({ params }: HttpContextContract) {
+    public async delete({ params, auth }: HttpContextContract) {
         const person = await Person.find(params.id);
+        const user: any = await auth.user;
         if (!person) throw new NotFoundException("La persona");
+        if (user.personId == person.id) {
+            throw new InternalServerErrorException("No se puede eliminar al usuario actual")
+        }
+        // process
         try {
             await person.delete();
             return { success: true };
