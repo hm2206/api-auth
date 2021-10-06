@@ -1,4 +1,5 @@
-{
+
+const methods = {
     "DocumentTypesController.index": {
         "url": "api/document_types",
         "description": "Listar tipo de documentos",
@@ -234,3 +235,5 @@
         "action_type": "PUT"
     }
 }
+
+export default methods;
