@@ -8,14 +8,14 @@
     "dev": "node ace serve --watch"
   },
   "devDependencies": {
-    "@adonisjs/assembler": "^5.3.5",
-    "adonis-preset-ts": "^2.1.0",
     "pino-pretty": "^5.1.2",
-    "typescript": "^4.2.4",
     "youch": "^2.2.2",
     "youch-terminal": "^1.1.1"
   },
   "dependencies": {
+    "typescript": "^4.2.4",
+    "@adonisjs/assembler": "^5.3.5",
+    "adonis-preset-ts": "^2.1.0",
     "@adonisjs/auth": "^8.0.7",
     "@adonisjs/core": "^5.1.10",
     "@adonisjs/lucid": "^15.0.3",
