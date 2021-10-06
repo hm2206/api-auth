@@ -1,7 +1,6 @@
 import Route from '@ioc:Adonis/Core/Route';
 import { RouteContract } from '@ioc:Adonis/Core/Route';
-
-const methods = require('../../start/method.json');
+import methods from '../../start/method';
 
 export default class RouteHelpers {
 
