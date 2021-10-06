@@ -5,7 +5,8 @@
   "scripts": {
     "build": "node ace build --production",
     "start": "node server.js",
-    "dev": "node ace serve --watch"
+    "dev": "node ace serve --watch",
+    "start:prod": "node ./build/server.js"
   },
   "devDependencies": {
     "pino-pretty": "^5.1.2",
